@@ -14,18 +14,22 @@ public class Spawner : MonoBehaviour
     [SerializeField] float increaseTimeBy;
     [SerializeField] int scoreLimit = 5;
     GameObject controller;
+    TheControllerScript ctrlScr;
 
     float timeSpentForSidekick = 0;
     float timeSpentForShirunken = 0;
     float timeSpentForAgitator = 0;
     public bool spawnSidekick = true;
-    public bool spawnAgitator = true;
-    public bool spawnShirunken = true;
+    public bool spawnAgitator = false;
+    public bool spawnShirunken = false;
+    [SerializeField] int agitatorLimit = 5;
+    [SerializeField] int shirunkenLimit = 10;
     // Start is called before the first frame update
     void Start()
     {
         //timeSpent = Time.time;
         controller = GameObject.FindGameObjectWithTag("GameController");
+        ctrlScr = controller.GetComponent<TheControllerScript>();
         timeSpentForAgitator = Time.time;
         timeSpentForShirunken = Time.time;
         timeSpentForSidekick = Time.time;
@@ -34,6 +38,14 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(ctrlScr.playerScore > agitatorLimit)
+        {
+            spawnAgitator = true;
+        }
+        if(ctrlScr.playerScore > shirunkenLimit)
+        {
+            spawnShirunken = true;
+        }
         if (spawnSidekick)
         {
             if (Time.time - timeSpentForSidekick >= waitToSpawnSidekick)

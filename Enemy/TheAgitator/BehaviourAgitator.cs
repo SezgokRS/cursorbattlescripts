@@ -14,10 +14,14 @@ public class BehaviourAgitator : MonoBehaviour
     public int health;
     public aStates aState;
     GameObject[] collisionIgnorer;
+    GameObject theController;
+    TheControllerScript ctrlScr;
     // Start is called before the first frame update
     void Start()
     {
         aState = aStates.INTRO;
+        theController = GameObject.FindGameObjectWithTag("GameController");
+        ctrlScr = theController.GetComponent<TheControllerScript>();
     }
 
     // Update is called once per frame
@@ -31,6 +35,11 @@ public class BehaviourAgitator : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.gameObject.tag == "PlayerLaser")
+        {
+            ctrlScr.playerScore += 2;
+            Destroy(gameObject);
+        }
         if (collision.gameObject.tag == "Bullet")
         {
             if (health > 0)
@@ -40,6 +49,7 @@ public class BehaviourAgitator : MonoBehaviour
             else
             {
                 Destroy(gameObject);
+                ctrlScr.playerScore += 2;
             }
             Destroy(collision.gameObject);
         }

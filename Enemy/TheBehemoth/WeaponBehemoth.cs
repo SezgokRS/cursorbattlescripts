@@ -95,7 +95,7 @@ public class WeaponBehemoth : MonoBehaviour
         }
         else
         {
-            bBehaviour.behemothHealth = 20;
+            bBehaviour.behemothHealth = bBehaviour.healthDefault;
             if (bulletOnScreen)
             {
                 Destroy(bulletOnScreen.gameObject);

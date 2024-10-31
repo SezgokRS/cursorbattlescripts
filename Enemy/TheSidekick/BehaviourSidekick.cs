@@ -12,10 +12,15 @@ public class BehaviourSidekick : MonoBehaviour
 {
     [SerializeField] int lives;
     GameObject controller;
+    int dropProb;
+    [SerializeField] GameObject healthDrop;
+    public int probForDrop;
     // Start is called before the first frame update
     void Start()
     {
         controller = GameObject.FindGameObjectWithTag("GameController");
+        dropProb = Random.Range(0, 100);
+        Debug.Log(dropProb);
     }
 
     // Update is called once per frame
@@ -26,10 +31,19 @@ public class BehaviourSidekick : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.gameObject.tag == "PlayerLaser")
+        {
+            Destroy(gameObject);
+            controller.GetComponent<TheControllerScript>().playerScore += 1;
+        }
         if (collision.gameObject.tag == "Bullet")
         {
             if (lives <= 0)
             {
+                if (dropProb % probForDrop == 0)
+                {
+                    Instantiate(healthDrop.gameObject, gameObject.transform.localPosition, transform.rotation);
+                }
                 Destroy(gameObject);
                 Destroy(collision.gameObject);
                 controller.GetComponent<TheControllerScript>().playerScore += 1;

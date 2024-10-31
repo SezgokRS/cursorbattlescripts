@@ -13,9 +13,13 @@ public class ShirunkenBehaviour : MonoBehaviour
     public shirunkenStates sState;
     [SerializeField] float health = 20;
     GameObject[] collisionShirunken;
+    GameObject theController;
+    TheControllerScript ctrlScr;
     void Start()
     {
         sState = shirunkenStates.INTRO;
+        theController = GameObject.FindGameObjectWithTag("GameController");
+        ctrlScr = theController.AddComponent<TheControllerScript>();
     }
 
     // Update is called once per frame
@@ -29,6 +33,11 @@ public class ShirunkenBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.gameObject.tag == "PlayerLaser")
+        {
+            ctrlScr.playerScore += 3;
+            Destroy(gameObject);
+        }
         if (collision.gameObject.tag == "Bullet")
         {
             if (health > 0)
@@ -38,6 +47,7 @@ public class ShirunkenBehaviour : MonoBehaviour
             else
             {
                 Destroy(gameObject);
+                ctrlScr.playerScore += 3;
             }
             Destroy(collision.gameObject);
         }

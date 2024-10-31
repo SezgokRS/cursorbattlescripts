@@ -16,11 +16,12 @@ public enum bStates
 public class BehemothBehaviour : MonoBehaviour
 {
     public bStates bState;
-    public int behemothHealth = 20;
+    public int behemothHealth;
+    public int healthDefault = 75;
     GameObject[] enemiesCollision;
     GameObject theController;
     TheControllerScript ctrlScr;
-    public float requiredPoints = 5;
+    public int requiredPoints = 5;
     GameObject weapon;
     [SerializeField] GameObject lookOutLaser;
     GameObject laserOnScene;
@@ -79,7 +80,7 @@ public class BehemothBehaviour : MonoBehaviour
             case bStates.INACTIVE:
                 if(ctrlScr.playerScore >= requiredPoints)
                 {
-                    requiredPoints *= 2;
+                    requiredPoints = ctrlScr.playerScore + Random.Range(15, 25);
                     bState = bStates.ENTER;
                 }
                 break;
